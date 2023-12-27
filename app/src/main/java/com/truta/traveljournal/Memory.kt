@@ -1,6 +1,7 @@
 package com.truta.traveljournal
 
 data class Memory (
-    val placeName: String = "",
-    val placeLocation: String = ""
+    var placeName: String = "",
+    var placeLocation: String = "",
+    var isFavorite: Boolean = false
 )
