@@ -7,12 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.truta.traveljournal.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: HomeViewModel
+    private lateinit var fab: FloatingActionButton
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +34,12 @@ class HomeFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
+
+
+        fab = binding.fabAdd
+        fab.setOnClickListener {
+            binding.root.findNavController().navigate(R.id.addMemoryFragment)
+        }
 
         return binding.root
 
