@@ -16,25 +16,17 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_addMemoryFragment"
-            app:destination="@id/addMemoryFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            android:id="@+id/action_homeFragment_to_addMemoryActivity"
+            app:destination="@id/addMemoryActivity" />
     </fragment>
     <fragment
         android:id="@+id/addMemoryFragment"
         android:name="com.truta.traveljournal.AddMemoryFragment"
         android:label="fragment_add_memory"
-        tools:layout="@layout/fragment_add_memory" >
-        <action
-            android:id="@+id/action_addMemoryFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right"
-            app:popEnterAnim="@android:anim/slide_in_left"
-            app:popExitAnim="@android:anim/slide_out_right"
-            app:popUpTo="@id/homeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_add_memory" />
+    <activity
+        android:id="@+id/addMemoryActivity"
+        android:name="com.truta.traveljournal.AddMemoryActivity"
+        android:label="activity_add_memory"
+        tools:layout="@layout/activity_add_memory" />
 </navigation>

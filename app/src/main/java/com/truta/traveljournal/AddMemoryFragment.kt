@@ -11,6 +11,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.truta.traveljournal.databinding.FragmentAddMemoryBinding
 import java.text.SimpleDateFormat
@@ -22,6 +23,8 @@ class AddMemoryFragment : Fragment() {
     private lateinit var viewModel: AddMemoryViewModel
     private lateinit var binding: FragmentAddMemoryBinding
     private lateinit var editText: TextInputEditText
+    private lateinit var doneFab: FloatingActionButton
+    private lateinit var homeViewModel: HomeViewModel
     val calendar: Calendar = Calendar.getInstance()
 
     override fun onCreateView(
@@ -57,12 +60,10 @@ class AddMemoryFragment : Fragment() {
             }
         }
 
-
-        activity?.onBackPressedDispatcher?.addCallback(this ) {
+        doneFab = binding.fabDone
+        doneFab.setOnClickListener {
             findNavController().popBackStack()
         }
-
-
 
         return binding.root
 
