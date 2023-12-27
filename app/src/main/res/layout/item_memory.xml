@@ -16,7 +16,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,8 +26,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:cardBackgroundColor="@{item.isFavorite ? @color/black : @color/white}">
-    
+            style="@style/CardView">
+
+            <!--            app:cardBackgroundColor="@{item.isFavorite ? @color/black : @color/white}">-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -50,15 +51,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{item.placeName}"
-                        android:textSize="16sp" />
+                        style="@style/TextAppearance.Material3.TitleLarge" />
     
                     <TextView
                         android:id="@+id/placeDesc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{item.placeLocation}"
-                        android:textColor="@color/material_on_surface_disabled"
-                        android:textSize="14sp" />
+                        style="@style/TextAppearance.Material3.BodyMedium"/>
                 </LinearLayout>
     
                 <ImageView
@@ -74,11 +74,12 @@
                     android:id="@+id/favoriteView"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/ic_favorite"
+                    android:src="@{item.isFavorite? @drawable/ic_favorite : @drawable/ic_favorite_border}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:onClick="@{() -> viewModel.onFavoriteButtonPress(item)}" />
+                    android:onClick="@{() -> viewModel.onFavoriteButtonPress(item)}"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
     
         </androidx.cardview.widget.CardView>
