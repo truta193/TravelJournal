@@ -19,11 +19,6 @@
             android:id="@+id/action_homeFragment_to_addMemoryActivity"
             app:destination="@id/addMemoryActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/addMemoryFragment"
-        android:name="com.truta.traveljournal.AddMemoryFragment"
-        android:label="fragment_add_memory"
-        tools:layout="@layout/fragment_add_memory" />
     <activity
         android:id="@+id/addMemoryActivity"
         android:name="com.truta.traveljournal.AddMemoryActivity"
