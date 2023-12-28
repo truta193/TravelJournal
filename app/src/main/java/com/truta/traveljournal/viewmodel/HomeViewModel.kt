@@ -12,9 +12,9 @@ class HomeViewModel: ViewModel() {
 
     init {
         _itemList.value = listOf(
-            Memory("Place 1", "Item 1"),
-            Memory("Place 2", "Item 2"),
-            Memory("Place 3", "Item 2"),
+            Memory("Place 1", "Item 1", false),
+            Memory("Place 2", "Item 2", false),
+            Memory("Place 3", "Item 2", false),
         )
     }
 
