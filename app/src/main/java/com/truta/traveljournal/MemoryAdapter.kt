@@ -25,12 +25,12 @@ class MemoryAdapter(private val viewModel: HomeViewModel) :
     }
 
     override fun onBindViewHolder(holder: MemoryViewHolder, position: Int) {
-        val item = viewModel.itemList.value?.get(position)!!
+        val item = viewModel.memories.value?.get(position)!!
         holder.bind(item)
     }
 
     override fun getItemCount(): Int {
-        return viewModel.itemList.value?.size ?: 0
+        return viewModel.memories.value?.size ?: 0
     }
 
 }
