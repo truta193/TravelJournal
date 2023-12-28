@@ -1,4 +1,4 @@
-package com.truta.traveljournal
+package com.truta.traveljournal.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao

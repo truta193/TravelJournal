@@ -1,4 +1,4 @@
-package com.truta.traveljournal
+package com.truta.traveljournal.database
 
 import android.content.Context
 import androidx.room.Database

@@ -1,12 +1,10 @@
 package com.truta.traveljournal.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.truta.traveljournal.MemoryRepository
+import com.truta.traveljournal.repository.MemoryRepository
 import com.truta.traveljournal.model.Memory
 import kotlinx.coroutines.launch
 

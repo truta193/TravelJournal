@@ -1,7 +1,8 @@
-package com.truta.traveljournal
+package com.truta.traveljournal.repository
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import com.truta.traveljournal.database.IMemoryDao
 import com.truta.traveljournal.model.Memory
 
 class MemoryRepository(private val memoryDao : IMemoryDao) {
