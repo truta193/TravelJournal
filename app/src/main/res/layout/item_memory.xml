@@ -6,10 +6,10 @@
     <data>
         <variable
             name="item"
-            type="com.truta.traveljournal.Memory" />
+            type="com.truta.traveljournal.model.Memory" />
         <variable
             name="viewModel"
-            type="com.truta.traveljournal.HomeViewModel" />
+            type="com.truta.traveljournal.viewmodel.HomeViewModel" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.truta.traveljournal.databinding.ItemMemoryBinding
+import com.truta.traveljournal.model.Memory
+import com.truta.traveljournal.viewmodel.HomeViewModel
 
 class MemoryAdapter(private val viewModel: HomeViewModel) :
     RecyclerView.Adapter<MemoryAdapter.MemoryViewHolder>() {

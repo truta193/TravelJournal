@@ -1,10 +1,10 @@
-package com.truta.traveljournal
+package com.truta.traveljournal.viewmodel
 
 import android.util.Log
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.truta.traveljournal.model.Memory
 
 class HomeViewModel: ViewModel() {
     private val _itemList = MutableLiveData<List<Memory>>()

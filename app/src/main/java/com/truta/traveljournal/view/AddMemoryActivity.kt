@@ -1,12 +1,12 @@
-package com.truta.traveljournal
+package com.truta.traveljournal.view
 
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.truta.traveljournal.R
 import com.truta.traveljournal.databinding.ActivityAddMemoryBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -66,6 +66,7 @@ class AddMemoryActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+
     }
 
     private fun updateLabel() {

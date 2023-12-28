@@ -1,4 +1,4 @@
-package com.truta.traveljournal
+package com.truta.traveljournal.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.truta.traveljournal.MarginItemDecoration
+import com.truta.traveljournal.viewmodel.HomeViewModel
+import com.truta.traveljournal.MemoryAdapter
 import com.truta.traveljournal.databinding.FragmentHomeBinding
 
 
@@ -28,7 +31,9 @@ class HomeFragment : Fragment() {
         val adapter = MemoryAdapter(viewModel)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
-
+        binding.recyclerView.addItemDecoration(
+            MarginItemDecoration(16)
+        )
         viewModel.itemList.observe(viewLifecycleOwner) {
             adapter.notifyDataSetChanged()
         }

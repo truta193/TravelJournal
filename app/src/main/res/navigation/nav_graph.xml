@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/testFragment"
-        android:name="com.truta.traveljournal.TestFragment"
+        android:name="com.truta.traveljournal.view.TestFragment"
         android:label="fragment_test"
         tools:layout="@layout/fragment_test" />
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.truta.traveljournal.HomeFragment"
+        android:name="com.truta.traveljournal.view.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <activity
         android:id="@+id/addMemoryActivity"
-        android:name="com.truta.traveljournal.AddMemoryActivity"
+        android:name="com.truta.traveljournal.view.AddMemoryActivity"
         android:label="activity_add_memory"
         tools:layout="@layout/activity_add_memory" />
 </navigation>

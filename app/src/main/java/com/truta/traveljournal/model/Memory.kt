@@ -1,4 +1,4 @@
-package com.truta.traveljournal
+package com.truta.traveljournal.model
 
 data class Memory (
     var placeName: String = "",
