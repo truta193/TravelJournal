@@ -5,6 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.truta.traveljournal.R
@@ -14,7 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class AddMemoryActivity : AppCompatActivity() {
+class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityAddMemoryBinding
     private lateinit var nameView: TextInputEditText
     private lateinit var dateView: TextInputEditText
@@ -24,10 +30,18 @@ class AddMemoryActivity : AppCompatActivity() {
     private lateinit var doneFab: FloatingActionButton
     val calendar: Calendar = Calendar.getInstance()
 
+    private lateinit var mMap: GoogleMap
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMemoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.inputMap) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
 
         nameView = binding.inputName
         dateView = binding.inputDate
@@ -87,4 +101,17 @@ class AddMemoryActivity : AppCompatActivity() {
         val dateFormat = SimpleDateFormat(myFormat, Locale.US)
         dateView.setText(dateFormat.format(calendar.time))
     }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        // Add a marker in Sydney and move the camera
+        val sydney = LatLng(-34.0, 151.0)
+        mMap.addMarker(
+            MarkerOptions()
+            .position(sydney)
+            .title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
 }
