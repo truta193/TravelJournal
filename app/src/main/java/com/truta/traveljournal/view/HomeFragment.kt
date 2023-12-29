@@ -1,5 +1,8 @@
 package com.truta.traveljournal.view
 
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +17,7 @@ import com.truta.traveljournal.MemoryAdapter
 import com.truta.traveljournal.TravelJournalApplication
 import com.truta.traveljournal.databinding.FragmentHomeBinding
 import com.truta.traveljournal.model.Memory
-import com.truta.traveljournal.viewmodel.MemoryModelFactory
+import com.truta.traveljournal.viewmodel.HomeMemoryModelFactory
 
 
 class HomeFragment : Fragment() {
@@ -22,7 +25,7 @@ class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels({
         requireActivity()
     }) {
-        MemoryModelFactory((requireActivity().application as TravelJournalApplication).repository)
+        HomeMemoryModelFactory((requireActivity().application as TravelJournalApplication).repository)
     }
 
     private lateinit var fab: FloatingActionButton
@@ -49,13 +52,22 @@ class HomeFragment : Fragment() {
 
         fab = binding.fabAdd
         fab.setOnClickListener {
-            val mem = Memory("Name", "Place", false)
-            viewModel.upsertMemory(mem)
-//            val i = Intent(this.context, AddMemoryActivity::class.java)
-//            startActivity(i)
+//            val mem = Memory("Name", "Place", false)
+//            viewModel.upsertMemory(mem)
+            val i = Intent(this.context, AddMemoryActivity::class.java)
+            startActivityForResult(i, 1);
         }
 
         return binding.root
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == 1) {
+            val memory : Memory = data!!.getParcelableExtra("memory")!!
+            viewModel.upsertMemory(memory)
+        }
 
     }
 }

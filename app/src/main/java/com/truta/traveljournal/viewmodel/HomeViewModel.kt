@@ -29,7 +29,7 @@ class HomeViewModel(private val repository: MemoryRepository): ViewModel() {
 
 }
 
-class MemoryModelFactory(private val repository: MemoryRepository): ViewModelProvider.Factory {
+class HomeMemoryModelFactory(private val repository: MemoryRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeViewModel::class.java))
             return HomeViewModel(repository) as T

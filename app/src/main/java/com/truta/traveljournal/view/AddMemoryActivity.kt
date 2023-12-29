@@ -1,6 +1,7 @@
 package com.truta.traveljournal.view
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
@@ -8,13 +9,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.truta.traveljournal.R
 import com.truta.traveljournal.databinding.ActivityAddMemoryBinding
+import com.truta.traveljournal.model.Memory
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class AddMemoryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddMemoryBinding
-    private lateinit var editText: TextInputEditText
+    private lateinit var nameView: TextInputEditText
+    private lateinit var dateView: TextInputEditText
+    private lateinit var typeView: TextInputEditText
+    private lateinit var moodView: TextInputEditText
+    private lateinit var notesView: TextInputEditText
     private lateinit var doneFab: FloatingActionButton
     val calendar: Calendar = Calendar.getInstance()
 
@@ -22,6 +28,9 @@ class AddMemoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMemoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        nameView = binding.inputName
+        dateView = binding.inputDate
 
         val toolbar = binding.addMemoryToolbar
         setSupportActionBar(toolbar)
@@ -34,7 +43,7 @@ class AddMemoryActivity : AppCompatActivity() {
         var arrayAdapter = ArrayAdapter(this, R.layout.item_dropdown, travelTypes)
         binding.inputType.setAdapter(arrayAdapter)
 
-        editText = binding.inputDate
+
 
         val date =
             DatePickerDialog.OnDateSetListener { view, year, month, day ->
@@ -44,7 +53,7 @@ class AddMemoryActivity : AppCompatActivity() {
                 updateLabel()
             }
 
-        editText.setOnClickListener {
+        dateView.setOnClickListener {
             this.let { it1 ->
                 DatePickerDialog(
                     it1,
@@ -58,20 +67,24 @@ class AddMemoryActivity : AppCompatActivity() {
 
         doneFab = binding.fabDone
         doneFab.setOnClickListener {
+            val memory : Memory = Memory(nameView.text.toString(), "Hi", false)
+
+            val data = Intent()
+            data.putExtra("memory", memory)
+            setResult(RESULT_OK, data)
             this.finish()
         }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        setResult(RESULT_CANCELED)
+        finish()
         return true
-
     }
 
     private fun updateLabel() {
         val myFormat = "MM/dd/yy"
         val dateFormat = SimpleDateFormat(myFormat, Locale.US)
-        editText.setText(dateFormat.format(calendar.time))
+        dateView.setText(dateFormat.format(calendar.time))
     }
 }

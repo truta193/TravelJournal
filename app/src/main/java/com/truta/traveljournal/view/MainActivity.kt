@@ -16,14 +16,14 @@ import com.truta.traveljournal.R
 import com.truta.traveljournal.TravelJournalApplication
 import com.truta.traveljournal.databinding.ActivityMainBinding
 import com.truta.traveljournal.viewmodel.HomeViewModel
-import com.truta.traveljournal.viewmodel.MemoryModelFactory
+import com.truta.traveljournal.viewmodel.HomeMemoryModelFactory
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navController: NavController
     private val viewModel: HomeViewModel by viewModels {
-        MemoryModelFactory((application as TravelJournalApplication).repository)
+        HomeMemoryModelFactory((application as TravelJournalApplication).repository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

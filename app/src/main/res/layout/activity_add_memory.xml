@@ -30,6 +30,9 @@
         android:id="@+id/inputNameLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/addMemoryToolbar"
@@ -53,6 +56,9 @@
         android:id="@+id/inputDateLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputNameLayout"
@@ -62,22 +68,25 @@
             android:id="@+id/inputDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/date_hint"
             android:clickable="false"
             android:cursorVisible="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            android:hint="@string/date_hint"
             android:inputType="date" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputTypeLayout"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputDateLayout"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         app:startIconDrawable="@drawable/ic_travel_type">
 
         <AutoCompleteTextView
@@ -85,8 +94,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:inputType="none"
-            android:hint="@string/type_hint" />
+            android:hint="@string/type_hint"
+            android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,6 +103,9 @@
         android:id="@+id/sliderGroupLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,6 +154,9 @@
         android:id="@+id/inputNotesLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sliderGroupLayout">
