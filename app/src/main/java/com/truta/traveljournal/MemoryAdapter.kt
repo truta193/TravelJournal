@@ -10,7 +10,8 @@ import com.truta.traveljournal.viewmodel.HomeViewModel
 class MemoryAdapter(private val viewModel: HomeViewModel) :
     RecyclerView.Adapter<MemoryAdapter.MemoryViewHolder>() {
 
-    inner class MemoryViewHolder(val itemBinding: ItemMemoryBinding) : RecyclerView.ViewHolder(itemBinding.root) {
+    inner class MemoryViewHolder(val itemBinding: ItemMemoryBinding) :
+        RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(item: Memory) {
             itemBinding.item = item
             itemBinding.viewModel = viewModel

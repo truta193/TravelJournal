@@ -8,7 +8,7 @@ import com.truta.traveljournal.repository.MemoryRepository
 import com.truta.traveljournal.model.Memory
 import kotlinx.coroutines.launch
 
-class HomeViewModel(private val repository: MemoryRepository): ViewModel() {
+class HomeViewModel(private val repository: MemoryRepository) : ViewModel() {
     var memories: LiveData<List<Memory>> = repository.allMemories
 
     fun upsertMemory(memory: Memory) = viewModelScope.launch {
@@ -22,7 +22,7 @@ class HomeViewModel(private val repository: MemoryRepository): ViewModel() {
     }
 }
 
-class HomeMemoryModelFactory(private val repository: MemoryRepository): ViewModelProvider.Factory {
+class HomeMemoryModelFactory(private val repository: MemoryRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeViewModel::class.java))
             return HomeViewModel(repository) as T

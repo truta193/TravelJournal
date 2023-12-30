@@ -62,7 +62,7 @@ class HomeFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == 1) {
-            val memory : Memory = data!!.getParcelableExtra("memory")!!
+            val memory: Memory = data!!.getParcelableExtra("memory")!!
             viewModel.upsertMemory(memory)
         }
     }

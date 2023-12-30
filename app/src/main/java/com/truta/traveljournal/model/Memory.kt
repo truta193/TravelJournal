@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "memories")
-data class Memory (
+data class Memory(
     var placeName: String,
     var placeLocation: String,
     var isFavorite: Boolean,

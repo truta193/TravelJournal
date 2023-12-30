@@ -16,6 +16,6 @@ interface IMemoryDao {
     suspend fun delete(memory: Memory)
 
     @Query("SELECT * FROM memories")
-    fun getAll() : LiveData<List<Memory>>
+    fun getAll(): LiveData<List<Memory>>
 
 }

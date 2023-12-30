@@ -110,9 +110,6 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.inputMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-
-
-
         switchView = binding.switch1
         switchView.setOnCheckedChangeListener { button, b ->
             if (b) {
@@ -193,7 +190,10 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        if (viewModel.marker != null) moveMarker(viewModel.marker!!.title!!, viewModel.marker!!.position)
+        if (viewModel.marker != null) moveMarker(
+            viewModel.marker!!.title!!,
+            viewModel.marker!!.position
+        )
 
         mMap.setOnMapClickListener { latlng ->
             run {

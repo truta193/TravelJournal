@@ -37,11 +37,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout = binding.drawerLayout
         val navigationView = binding.navigationView
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentHost) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.fragmentHost) as NavHostFragment
         navController = navHostFragment.navController
 
 
-        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar,
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
             R.string.open_nav,
             R.string.close_nav
         )

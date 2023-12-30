@@ -11,13 +11,13 @@ import com.truta.traveljournal.model.Memory
     version = 1
 )
 abstract class MemoryDatabase : RoomDatabase() {
-    abstract val dao : IMemoryDao
+    abstract val dao: IMemoryDao
 
     companion object {
         @Volatile
-        private var INSTANCE : MemoryDatabase? = null
+        private var INSTANCE: MemoryDatabase? = null
 
-        fun getDatabase(context : Context) : MemoryDatabase {
+        fun getDatabase(context: Context): MemoryDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
