@@ -4,12 +4,15 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.truta.traveljournal.Converters
 import com.truta.traveljournal.model.Memory
 
 @Database(
     entities = [Memory::class],
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class MemoryDatabase : RoomDatabase() {
     abstract val dao: IMemoryDao
 

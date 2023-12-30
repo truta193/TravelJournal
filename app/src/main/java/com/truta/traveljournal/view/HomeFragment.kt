@@ -53,17 +53,9 @@ class HomeFragment : Fragment() {
 //            val mem = Memory("Name", "Place", false)
 //            viewModel.upsertMemory(mem)
             val i = Intent(this.context, AddMemoryActivity::class.java)
-            startActivityForResult(i, 1);
+            startActivity(i);
         }
 
         return binding.root
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == 1) {
-            val memory: Memory = data!!.getParcelableExtra("memory")!!
-            viewModel.upsertMemory(memory)
-        }
     }
 }

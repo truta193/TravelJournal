@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.activity.result.ActivityResult
@@ -33,17 +34,24 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
+import com.truta.traveljournal.BuildConfig
 import com.truta.traveljournal.R
 import com.truta.traveljournal.TravelJournalApplication
 import com.truta.traveljournal.databinding.ActivityAddMemoryBinding
 import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.AddMemoryModelFactory
 import com.truta.traveljournal.viewmodel.AddMemoryViewModel
+import java.io.FileInputStream
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
+import java.util.Properties
 
 
 class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -52,8 +60,8 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var nameView: TextInputEditText
     private lateinit var dateView: TextInputEditText
-    private lateinit var typeView: TextInputEditText
-    private lateinit var moodView: TextInputEditText
+    private lateinit var typeView: AutoCompleteTextView
+    private lateinit var moodView: Slider
     private lateinit var notesView: TextInputEditText
     private lateinit var doneFab: FloatingActionButton
     private lateinit var switchView: SwitchMaterial
@@ -93,7 +101,7 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         if (!Places.isInitialized()) {
             Places.initialize(
                 applicationContext,
-                "AIzaSyDVgW3L85ub8M43la5wdJTMp74LDvT7A9Y",
+                BuildConfig.MAPS_API_KEY,
                 Locale.US
             );
             placesClient = Places.createClient(applicationContext)
@@ -131,6 +139,9 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
         nameView = binding.inputName
         dateView = binding.inputDate
+        typeView = binding.inputType
+        moodView = binding.inputMoodSlider
+        notesView = binding.inputNotes
 
         val toolbar = binding.addMemoryToolbar
         setSupportActionBar(toolbar)
@@ -166,11 +177,18 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
         doneFab = binding.fabDone
         doneFab.setOnClickListener {
-            val memory: Memory = Memory(nameView.text.toString(), "Hi", false)
-
-            val data = Intent()
-            data.putExtra("memory", memory)
-            setResult(RESULT_OK, data)
+            val formatter = DateTimeFormatter.ofPattern("MM/dd/yy")
+            val memory: Memory = Memory(
+                nameView.text.toString(),
+                viewModel.marker?.title,
+                viewModel.marker?.position?.latitude,
+                viewModel.marker?.position?.longitude,
+                false,
+                LocalDate.parse(dateView.text.toString(), formatter),
+                typeView.text.toString(),
+                moodView.value.toDouble(),
+                notesView.text.toString())
+            viewModel.upsertMemory(memory)
             this.finish()
         }
     }
@@ -183,7 +201,7 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun updateLabel() {
         val myFormat = "MM/dd/yy"
-        val dateFormat = SimpleDateFormat(myFormat, Locale.US)
+        val dateFormat = SimpleDateFormat(myFormat, Locale.getDefault())
         dateView.setText(dateFormat.format(calendar.time))
     }
 

@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,9 +7,14 @@ plugins {
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
+
+
 android {
     namespace = "com.truta.traveljournal"
     compileSdk = 34
+
+    android.buildFeatures.buildConfig = true
+    val key: String = gradleLocalProperties(rootDir).getProperty("MAPS_API_KEY")
 
     defaultConfig {
         applicationId = "com.truta.traveljournal"
@@ -26,7 +33,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
         }
+
     }
 
     buildFeatures {
