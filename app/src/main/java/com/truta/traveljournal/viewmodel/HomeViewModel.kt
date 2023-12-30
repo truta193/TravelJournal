@@ -20,13 +20,6 @@ class HomeViewModel(private val repository: MemoryRepository): ViewModel() {
 
         repository.upsertMemory(memory)
     }
-//
-//    fun getFavoriteButtonColor(memory: Memory): Int {
-//        if (memory.isFavorite)
-//            return androidx.appcompat.R.color.material_grey_50
-//        return androidx.appcompat.R.color.abc_tint_btn_checkable
-//    }
-
 }
 
 class HomeMemoryModelFactory(private val repository: MemoryRepository): ViewModelProvider.Factory {

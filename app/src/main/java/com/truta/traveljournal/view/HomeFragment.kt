@@ -34,7 +34,6 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
@@ -49,7 +48,6 @@ class HomeFragment : Fragment() {
         }
 
 
-
         fab = binding.fabAdd
         fab.setOnClickListener {
 //            val mem = Memory("Name", "Place", false)
@@ -59,7 +57,6 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -68,6 +65,5 @@ class HomeFragment : Fragment() {
             val memory : Memory = data!!.getParcelableExtra("memory")!!
             viewModel.upsertMemory(memory)
         }
-
     }
 }
