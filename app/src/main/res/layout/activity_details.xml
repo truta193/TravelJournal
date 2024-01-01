@@ -27,7 +27,7 @@
 
         <LinearLayout
             android:id="@+id/detailsTitleLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -69,6 +69,17 @@
             app:layout_constraintStart_toEndOf="@+id/detailsThumbnail"
             app:layout_constraintTop_toBottomOf="@id/detailsTitleLayout" />
 
+        <TextView
+            android:id="@+id/detailsType"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="Type"
+            app:layout_constraintStart_toEndOf="@+id/detailsThumbnail"
+            app:layout_constraintTop_toBottomOf="@+id/detailsDate" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
@@ -86,7 +97,22 @@
             android:id="@+id/detailsInputMap"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="300dp" />
+            android:layout_height="250dp" />
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/detailsNotes"
+        style="@style/TextAppearance.Material3.BodyMedium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="Notes"
+        app:flow_wrapMode="aligned"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/detailsMapContainer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
