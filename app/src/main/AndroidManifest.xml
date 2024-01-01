@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Material3.Dark"
+        android:theme="@style/Theme.AppSplash"
         tools:targetApi="31">
         <activity
             android:name=".view.DetailsActivity"
@@ -27,8 +27,7 @@
             android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
         <activity
             android:name=".view.MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Material3.DayNight.NoActionBar">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
