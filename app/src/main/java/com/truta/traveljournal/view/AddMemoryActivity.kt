@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -127,6 +128,8 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             } else {
                 binding.mapContainer.visibility = View.GONE
                 inputMapSearch.visibility = View.GONE
+                viewModel.marker?.remove()
+                viewModel.marker = null
             }
         }
 
@@ -177,6 +180,11 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
         doneFab = binding.fabDone
         doneFab.setOnClickListener {
+            if (nameView.text.toString().trim().isEmpty() || dateView.text.toString().trim().isEmpty()) {
+                Toast.makeText(this, "Title and Date cannot be empty", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val formatter = DateTimeFormatter.ofPattern("MM/dd/yy")
             val memory: Memory = Memory(
                 nameView.text.toString(),
@@ -194,7 +202,6 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        setResult(RESULT_CANCELED)
         finish()
         return true
     }

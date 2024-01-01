@@ -28,5 +28,6 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/frameLayout"
-        app:srcCompat="@drawable/ic_add" />
+        app:srcCompat="@drawable/ic_add"
+        android:contentDescription="Done" />
 </androidx.constraintlayout.widget.ConstraintLayout>

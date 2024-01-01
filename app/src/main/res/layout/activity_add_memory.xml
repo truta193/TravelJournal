@@ -24,7 +24,8 @@
         android:clickable="true"
         android:src="@drawable/ic_checkmark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Add a new Memory" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputNameLayout"
@@ -44,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:ems="10"
-            android:hint="@string/place_name_hint"
+            android:hint="@string/title_hint"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +148,8 @@
             android:src="@drawable/ic_search"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@id/mapContainer"
-            app:layout_constraintTop_toTopOf="@id/mapContainer" />
+            app:layout_constraintTop_toTopOf="@id/mapContainer"
+            android:contentDescription="Places search button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -177,7 +179,8 @@
                 android:src="@drawable/ic_mood_sad"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="Sad Mood" />
 
             <ImageView
                 android:id="@+id/iconMoodNeutral"
@@ -186,7 +189,8 @@
                 android:src="@drawable/ic_mood_neutral"
                 app:layout_constraintBottom_toBottomOf="@+id/iconMoodHappy"
                 app:layout_constraintEnd_toStartOf="@+id/iconMoodHappy"
-                app:layout_constraintStart_toEndOf="@+id/iconMoodSad" />
+                app:layout_constraintStart_toEndOf="@+id/iconMoodSad"
+                android:contentDescription="Neutral mood" />
 
             <ImageView
                 android:id="@+id/iconMoodHappy"
@@ -195,7 +199,8 @@
                 android:src="@drawable/ic_mood_happy"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="Happy mood" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.slider.Slider
