@@ -7,11 +7,24 @@ import com.truta.traveljournal.databinding.ItemMemoryBinding
 import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.HomeViewModel
 
-class MemoryAdapter(private val viewModel: HomeViewModel) :
-    RecyclerView.Adapter<MemoryAdapter.MemoryViewHolder>() {
+class MemoryAdapter(
+    private val viewModel: HomeViewModel,
+    private val onItemClick: (Memory) -> Unit
+) : RecyclerView.Adapter<MemoryAdapter.MemoryViewHolder>() {
 
-    inner class MemoryViewHolder(val itemBinding: ItemMemoryBinding) :
-        RecyclerView.ViewHolder(itemBinding.root) {
+    inner class MemoryViewHolder(
+        val itemBinding: ItemMemoryBinding
+    ) : RecyclerView.ViewHolder(itemBinding.root) {
+
+        init {
+            itemView.setOnClickListener {
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onItemClick(viewModel.memories.value?.get(position)!!)
+                }
+            }
+        }
+
         fun bind(item: Memory) {
             itemBinding.item = item
             itemBinding.viewModel = viewModel
@@ -20,8 +33,8 @@ class MemoryAdapter(private val viewModel: HomeViewModel) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemoryViewHolder {
-        val binding = ItemMemoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
+        val binding =
+            ItemMemoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MemoryViewHolder(binding)
     }
 
@@ -33,5 +46,5 @@ class MemoryAdapter(private val viewModel: HomeViewModel) :
     override fun getItemCount(): Int {
         return viewModel.memories.value?.size ?: 0
     }
-
 }
+

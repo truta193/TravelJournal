@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +38,13 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
-        val adapter = MemoryAdapter(viewModel)
+        val adapter = MemoryAdapter(viewModel) { memory ->
+            run {
+                val i  = Intent(this.context, DetailsActivity::class.java)
+                i.putExtra("MEMORY_ID", memory.id)
+                startActivity(i)
+            }
+        }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
         binding.recyclerView.addItemDecoration(
