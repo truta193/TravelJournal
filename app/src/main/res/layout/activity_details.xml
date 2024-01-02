@@ -26,30 +26,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailsToolbar">
 
-        <LinearLayout
-            android:id="@+id/detailsTitleLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/detailsHeaderAligner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toEndOf="@id/detailsThumbnail"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/detailsThumbnail"
             app:layout_constraintTop_toTopOf="parent">
 
+            <LinearLayout
+                android:id="@+id/detailsTitleLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/detailsTitle"
+                    style="@style/TextAppearance.Material3.TitleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title" />
+
+                <ImageView
+                    android:id="@+id/detailsMood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    app:srcCompat="@drawable/ic_mood_happy" />
+            </LinearLayout>
+
             <TextView
-                android:id="@+id/detailsTitle"
-                style="@style/TextAppearance.Material3.TitleLarge"
+                android:id="@+id/detailsDate"
+                style="@style/TextAppearance.Material3.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Title" />
+                android:text="20/20/2020"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailsTitleLayout" />
 
-            <ImageView
-                android:id="@+id/detailsMood"
+            <TextView
+                android:id="@+id/detailsType"
+                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="16dp"
-                app:srcCompat="@drawable/ic_mood_happy" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+
+                android:text="Type"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detailsDate" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <ImageView
             android:id="@+id/detailsThumbnail"
@@ -59,27 +89,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/detailsDate"
-            style="@style/TextAppearance.Material3.BodyLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="20/20/2020"
-            app:layout_constraintStart_toEndOf="@+id/detailsThumbnail"
-            app:layout_constraintTop_toBottomOf="@id/detailsTitleLayout" />
-
-        <TextView
-            android:id="@+id/detailsType"
-            style="@style/TextAppearance.Material3.BodyMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:text="Type"
-            app:layout_constraintStart_toEndOf="@+id/detailsThumbnail"
-            app:layout_constraintTop_toBottomOf="@+id/detailsDate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

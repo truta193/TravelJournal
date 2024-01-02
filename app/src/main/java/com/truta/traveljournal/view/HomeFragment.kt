@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.truta.traveljournal.MarginItemDecoration
 import com.truta.traveljournal.viewmodel.HomeViewModel
-import com.truta.traveljournal.MemoryAdapter
+import com.truta.traveljournal.adapters.MemoryAdapter
 import com.truta.traveljournal.TravelJournalApplication
 import com.truta.traveljournal.databinding.FragmentHomeBinding
 import com.truta.traveljournal.viewmodel.HomeMemoryModelFactory

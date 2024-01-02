@@ -77,7 +77,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
 
-    val calendar: Calendar = Calendar.getInstance()
+    private val calendar: Calendar = Calendar.getInstance()
 
     private lateinit var geocoder: Geocoder
     private lateinit var mMap: GoogleMap
@@ -158,7 +158,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val travelTypes = resources.getStringArray(R.array.travel_types)
-        var arrayAdapter = ArrayAdapter(this, R.layout.item_dropdown, travelTypes)
+        val arrayAdapter = ArrayAdapter(this, R.layout.item_dropdown, travelTypes)
         binding.inputType.setAdapter(arrayAdapter)
 
 
