@@ -21,7 +21,7 @@
     </fragment>
     <activity
         android:id="@+id/addMemoryActivity"
-        android:name="com.truta.traveljournal.view.AddMemoryActivity"
+        android:name="com.truta.traveljournal.view.AddEditMemoryActivity"
         android:label="activity_add_memory"
-        tools:layout="@layout/activity_add_memory" />
+        tools:layout="@layout/activity_add_edit_memory" />
 </navigation>

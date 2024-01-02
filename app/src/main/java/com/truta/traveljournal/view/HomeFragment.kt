@@ -1,10 +1,7 @@
 package com.truta.traveljournal.view
 
-import android.app.Activity.RESULT_CANCELED
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +14,6 @@ import com.truta.traveljournal.viewmodel.HomeViewModel
 import com.truta.traveljournal.MemoryAdapter
 import com.truta.traveljournal.TravelJournalApplication
 import com.truta.traveljournal.databinding.FragmentHomeBinding
-import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.HomeMemoryModelFactory
 
 
@@ -59,7 +55,7 @@ class HomeFragment : Fragment() {
         fab.setOnClickListener {
 //            val mem = Memory("Name", "Place", false)
 //            viewModel.upsertMemory(mem)
-            val i = Intent(this.context, AddMemoryActivity::class.java)
+            val i = Intent(this.context, AddEditMemoryActivity::class.java)
             startActivity(i);
         }
 

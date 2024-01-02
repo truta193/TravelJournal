@@ -18,7 +18,7 @@ interface IMemoryDao {
     @Query("SELECT * FROM memories")
     fun getAll(): LiveData<List<Memory>>
 
-//    @Query("SELECT * FROM memories WHERE id=:mId")
-//    fun getById(mId: Int): Memory?
+    @Query("SELECT * FROM memories WHERE id=:mId")
+    fun getById(mId: Int): LiveData<Memory>
 
 }

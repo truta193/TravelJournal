@@ -1,25 +1,19 @@
 package com.truta.traveljournal.view
 
-import android.R.attr
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Intent
-import android.location.Address
 import android.location.Geocoder
-import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -27,7 +21,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
@@ -41,22 +34,19 @@ import com.google.android.material.textfield.TextInputEditText
 import com.truta.traveljournal.BuildConfig
 import com.truta.traveljournal.R
 import com.truta.traveljournal.TravelJournalApplication
-import com.truta.traveljournal.databinding.ActivityAddMemoryBinding
+import com.truta.traveljournal.databinding.ActivityAddEditMemoryBinding
 import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.AddMemoryModelFactory
 import com.truta.traveljournal.viewmodel.AddMemoryViewModel
-import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
-import java.util.Date
 import java.util.Locale
-import java.util.Properties
 
 
-class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
-    private lateinit var binding: ActivityAddMemoryBinding
+class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
+    private lateinit var binding: ActivityAddEditMemoryBinding
     private lateinit var viewModel: AddMemoryViewModel
 
     private lateinit var nameView: TextInputEditText
@@ -96,7 +86,7 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddMemoryBinding.inflate(layoutInflater)
+        binding = ActivityAddEditMemoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         if (!Places.isInitialized()) {
@@ -148,7 +138,21 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val toolbar = binding.addMemoryToolbar
         setSupportActionBar(toolbar)
-        title = "Add Memory"
+
+        if (intent.hasExtra("MEMORY_ID")) {
+            title = "Edit Memory"
+            val memory = viewModel.getMemoryById(intent.extras!!.getInt("MEMORY_ID"))
+            val formatter = DateTimeFormatter.ofPattern("MM/dd/yy")
+
+            nameView.setText(memory.title)
+            dateView.setText(memory.date.format(formatter))
+            typeView.setText(memory.type)
+            moodView.value = memory.mood.toFloat()
+            notesView.setText(memory.notes)
+            switchView.isChecked = memory.placeLatitude != null && memory.placeLongitude != null
+        } else
+            title = "Add Memory"
+
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -196,6 +200,11 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                 typeView.text.toString(),
                 moodView.value.toDouble(),
                 notesView.text.toString())
+            if (intent.hasExtra("MEMORY_ID")) {
+                val mem = viewModel.getMemoryById(intent.extras!!.getInt("MEMORY_ID"))
+                memory.isFavorite = mem.isFavorite
+                memory.id = mem.id
+            }
             viewModel.upsertMemory(memory)
             this.finish()
         }
@@ -213,7 +222,14 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+        if (intent.hasExtra("MEMORY_ID") && !this::mMap.isInitialized) {
+            mMap = googleMap
+            val memory = viewModel.getMemoryById(intent.extras!!.getInt("MEMORY_ID"))
+            if (memory.placeLatitude != null && memory.placeLongitude != null)
+                moveMarker(memory.title, LatLng(memory.placeLatitude!!, memory.placeLongitude!!))
+        } else {
+            mMap = googleMap
+        }
 
         if (viewModel.marker != null) moveMarker(
             viewModel.marker!!.title!!,
@@ -241,7 +257,6 @@ class AddMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun launchPlacesSearch() {
         val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
 
-        // Start the autocomplete intent.
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
             .build(this)
         startAutocomplete.launch(intent)
