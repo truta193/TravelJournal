@@ -20,15 +20,16 @@ class AddEditMemoryViewModel(private val repository: MemoryRepository) : ViewMod
     }
 
     fun getMemoryById(id: Int): Memory {
-        return memories.value!!.find { it -> it.id == id}!!
+        return memories.value!!.find { it -> it.id == id }!!
     }
 
 }
 
 class AddMemoryModelFactory(private val repository: MemoryRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AddEditMemoryViewModel::class.java))
-            return AddEditMemoryViewModel(repository) as T
+        if (modelClass.isAssignableFrom(AddEditMemoryViewModel::class.java)) return AddEditMemoryViewModel(
+            repository
+        ) as T
         throw IllegalAccessException("Unknown class for ViewModel")
     }
 }

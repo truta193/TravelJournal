@@ -8,8 +8,7 @@ import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.HomeViewModel
 
 class MemoryAdapter(
-    private val viewModel: HomeViewModel,
-    private val onItemClick: (Memory) -> Unit
+    private val viewModel: HomeViewModel, private val onItemClick: (Memory) -> Unit
 ) : RecyclerView.Adapter<MemoryAdapter.MemoryViewHolder>() {
 
     inner class MemoryViewHolder(
@@ -33,8 +32,7 @@ class MemoryAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemoryViewHolder {
-        val binding =
-            ItemMemoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMemoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MemoryViewHolder(binding)
     }
 

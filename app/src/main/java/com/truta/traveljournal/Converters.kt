@@ -1,12 +1,9 @@
 package com.truta.traveljournal
 
-import android.net.Uri
 import androidx.room.TypeConverter
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.truta.traveljournal.adapter.UriJsonAdapter
 import java.lang.reflect.Type
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

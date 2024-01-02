@@ -80,8 +80,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                 val intent = result.data
                 if (intent != null) {
                     val place = Autocomplete.getPlaceFromIntent(intent)
-                    if (place.name == null || place.latLng == null)
-                        return@registerForActivityResult
+                    if (place.name == null || place.latLng == null) return@registerForActivityResult
                     moveMarker(place.name!!, place.latLng!!)
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(place.latLng!!))
                 }
@@ -92,27 +91,24 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var pictureSelectorLauncher =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
-            if (uris.isNotEmpty())
-                for (uri in uris) {
-                    Log.e("URITEST", uri.toString())
-                    viewModel.pictureUris.add(uri.toString())
-                    recyclerView.adapter?.notifyDataSetChanged()
-                }
-        }
-
-    private val requestPermissionForImageLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { isGranted: Boolean ->
-            if (isGranted) {
-                pictureSelectorLauncher.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly
-                    )
-                )
+            if (uris.isNotEmpty()) for (uri in uris) {
+                Log.e("URITEST", uri.toString())
+                viewModel.pictureUris.add(uri.toString())
+                recyclerView.adapter?.notifyDataSetChanged()
             }
         }
 
+    private val requestPermissionForImageLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            pictureSelectorLauncher.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
+            )
+        }
+    }
 
 
     private val calendar: Calendar = Calendar.getInstance()
@@ -127,9 +123,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 //region Init stuff
         if (!Places.isInitialized()) {
             Places.initialize(
-                applicationContext,
-                BuildConfig.MAPS_API_KEY,
-                Locale.US
+                applicationContext, BuildConfig.MAPS_API_KEY, Locale.US
             );
             placesClient = Places.createClient(applicationContext)
         }
@@ -137,12 +131,11 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         geocoder = Geocoder(this, Locale.getDefault())
 
         viewModel = ViewModelProvider(
-            this,
-            AddMemoryModelFactory((this.application as TravelJournalApplication).repository)
+            this, AddMemoryModelFactory((this.application as TravelJournalApplication).repository)
         )[AddEditMemoryViewModel::class.java]
 
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.inputMap) as SupportMapFragment
+        val mapFragment =
+            supportFragmentManager.findFragmentById(R.id.inputMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 //endregion
         switchView = binding.switch1
@@ -188,8 +181,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         if (intent.hasExtra("MEMORY_ID")) {
             title = "Edit Memory"
             fillEditFields()
-        } else
-            title = "Add Memory"
+        } else title = "Add Memory"
 
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_arrow_back)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -200,13 +192,12 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.inputType.setAdapter(arrayAdapter)
 
 
-        val date =
-            DatePickerDialog.OnDateSetListener { view, year, month, day ->
-                calendar.set(Calendar.YEAR, year)
-                calendar.set(Calendar.MONTH, month)
-                calendar.set(Calendar.DAY_OF_MONTH, day)
-                updateLabel()
-            }
+        val date = DatePickerDialog.OnDateSetListener { view, year, month, day ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, day)
+            updateLabel()
+        }
 
         dateView.setOnClickListener {
             this.let { it1 ->
@@ -222,8 +213,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding.buttonAddPhoto.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_MEDIA_IMAGES
+                    this, Manifest.permission.READ_MEDIA_IMAGES
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 requestPermissionForImageLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
@@ -284,15 +274,15 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         if (intent.hasExtra("MEMORY_ID") && !this::mMap.isInitialized) {
             mMap = googleMap
             val memory = viewModel.getMemoryById(intent.extras!!.getInt("MEMORY_ID"))
-            if (memory.placeLatitude != null && memory.placeLongitude != null)
-                moveMarker(memory.title, LatLng(memory.placeLatitude!!, memory.placeLongitude!!))
+            if (memory.placeLatitude != null && memory.placeLongitude != null) moveMarker(
+                memory.title, LatLng(memory.placeLatitude!!, memory.placeLongitude!!)
+            )
         } else {
             mMap = googleMap
         }
 
         if (viewModel.marker != null) moveMarker(
-            viewModel.marker!!.title!!,
-            viewModel.marker!!.position
+            viewModel.marker!!.title!!, viewModel.marker!!.position
         )
 
         mMap.setOnMapClickListener { latlng ->
@@ -302,8 +292,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                 val address = addresses?.get(0)
 
                 moveMarker(
-                    address?.getAddressLine(0) ?: "${latlng.latitude} ${latlng.longitude}",
-                    latlng
+                    address?.getAddressLine(0) ?: "${latlng.latitude} ${latlng.longitude}", latlng
                 )
             }
         }
@@ -316,17 +305,15 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun launchPlacesSearch() {
         val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
 
-        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-            .build(this)
+        val intent =
+            Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields).build(this)
         startAutocomplete.launch(intent)
     }
 
     private fun moveMarker(title: String, location: LatLng) {
         viewModel.marker?.remove()
         viewModel.marker = mMap.addMarker(
-            MarkerOptions()
-                .position(location)
-                .title(title)
+            MarkerOptions().position(location).title(title)
         )
     }
 

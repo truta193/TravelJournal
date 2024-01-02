@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_home"
-        android:contentDescription="Home icon" />
+        android:contentDescription="Home icon"
+        android:src="@drawable/ic_home" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -48,9 +48,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|center_vertical"
         android:clickable="true"
+        android:contentDescription="Home icon"
         android:focusable="true"
-        android:src="@drawable/ic_home"
-        android:contentDescription="Home icon" />
+        android:src="@drawable/ic_home" />
 
 
 </LinearLayout>

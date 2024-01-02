@@ -24,6 +24,5 @@ data class Memory(
     var mood: Double,
     var notes: String,
     var pictures: List<String>?,
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    @PrimaryKey(autoGenerate = true) var id: Int = 0
 )

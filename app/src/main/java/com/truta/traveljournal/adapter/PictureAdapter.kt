@@ -12,8 +12,7 @@ import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.AddEditMemoryViewModel
 
 class PictureAdapter(
-    private val viewModel: AddEditMemoryViewModel,
-    private val onItemClick: (Memory) -> Unit
+    private val viewModel: AddEditMemoryViewModel, private val onItemClick: (Memory) -> Unit
 ) : RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
 
     inner class PictureViewHolder(
@@ -34,9 +33,10 @@ class PictureAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PictureAdapter.PictureViewHolder {
-        val binding =
-            ItemPictureBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup, viewType: Int
+    ): PictureAdapter.PictureViewHolder {
+        val binding = ItemPictureBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PictureViewHolder(binding)
     }
 
@@ -44,9 +44,7 @@ class PictureAdapter(
         if (viewModel.pictureUris.isEmpty()) return
         val context = holder.itemView.context
         val uri = viewModel.pictureUris[position]
-        Glide.with(context)
-            .load(Uri.parse(uri))
-            .into(holder.itemBinding.galleryPicture)
+        Glide.with(context).load(Uri.parse(uri)).into(holder.itemBinding.galleryPicture)
 
     }
 

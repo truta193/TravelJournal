@@ -28,15 +28,14 @@ class HomeFragment : Fragment() {
     private lateinit var fab: FloatingActionButton
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
 
         val adapter = MemoryAdapter(viewModel) { memory ->
             run {
-                val i  = Intent(this.context, DetailsActivity::class.java)
+                val i = Intent(this.context, DetailsActivity::class.java)
                 i.putExtra("MEMORY_ID", memory.id)
                 startActivity(i)
             }

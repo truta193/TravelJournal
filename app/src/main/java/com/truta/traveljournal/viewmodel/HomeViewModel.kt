@@ -24,8 +24,7 @@ class HomeViewModel(private val repository: MemoryRepository) : ViewModel() {
 
 class HomeMemoryModelFactory(private val repository: MemoryRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java))
-            return HomeViewModel(repository) as T
+        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) return HomeViewModel(repository) as T
         throw IllegalAccessException("Unknown class for ViewModel")
     }
 }
