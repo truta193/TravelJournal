@@ -1,6 +1,9 @@
 package com.truta.traveljournal.viewmodel
 
+import android.content.Context
+import android.database.Cursor
 import android.net.Uri
+import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +24,21 @@ class AddEditMemoryViewModel(private val repository: MemoryRepository) : ViewMod
 
     fun getMemoryById(id: Int): Memory {
         return memories.value!!.find { it -> it.id == id }!!
+    }
+
+    fun getRealPathFromUri(context: Context, uri: Uri): String? {
+        var cursor: Cursor? = null
+        try {
+            val projection = arrayOf(MediaStore.Images.Media.DATA)
+            cursor = context.contentResolver.query(uri, projection, null, null, null)
+            if (cursor != null && cursor.moveToFirst()) {
+                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+                return cursor.getString(columnIndex)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
     }
 
 }

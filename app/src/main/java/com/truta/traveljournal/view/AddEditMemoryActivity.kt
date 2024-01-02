@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -91,7 +92,8 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var pictureSelectorLauncher =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
-            if (uris.isNotEmpty()) for (uri in uris) {
+            if (uris.isNotEmpty())
+                for (uri in uris) {
                 Log.e("URITEST", uri.toString())
                 viewModel.pictureUris.add(uri.toString())
                 recyclerView.adapter?.notifyDataSetChanged()

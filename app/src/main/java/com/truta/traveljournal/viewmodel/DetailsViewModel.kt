@@ -12,6 +12,7 @@ class DetailsViewModel(private val repository: MemoryRepository, private val mem
     ViewModel() {
     var memories = repository.allMemories
     var currentMemory: Memory? = null
+    var pictureUris: MutableList<String> = mutableListOf()
 
     fun getMemoryById(id: Int): Memory? {
         return memories.value?.find { it -> it.id == id }

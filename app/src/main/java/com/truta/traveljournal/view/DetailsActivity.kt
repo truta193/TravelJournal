@@ -1,6 +1,8 @@
 package com.truta.traveljournal.view
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import com.truta.traveljournal.R
 import android.os.Bundle
 import android.util.Log
@@ -10,16 +12,24 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.truta.traveljournal.MarginItemDecoration
 import com.truta.traveljournal.TravelJournalApplication
+import com.truta.traveljournal.adapter.PictureAdapter
+import com.truta.traveljournal.adapter.PictureAdapterD
 import com.truta.traveljournal.databinding.ActivityDetailsBinding
 import com.truta.traveljournal.viewmodel.DetailsModelFactory
 import com.truta.traveljournal.viewmodel.DetailsViewModel
@@ -36,7 +46,10 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mapLayout: FrameLayout
     private lateinit var typeView: TextView
     private lateinit var notesView: TextView
+    private lateinit var recyclerView: RecyclerView
     private var marker: Marker? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +64,7 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         typeView = binding.detailsType
         notesView = binding.detailsNotes
 
+
         viewModel = ViewModelProvider(
             this, DetailsModelFactory(
                 (this.application as TravelJournalApplication).repository,
@@ -58,11 +72,23 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             )
         )[DetailsViewModel::class.java]
 
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
         viewModel.memories.observe(this) {
             viewModel.currentMemory = viewModel.getMemoryById(intent.extras?.getInt("MEMORY_ID")!!)
             updateUI()
         }
+
+        recyclerView = binding.detailsPicturesRecyclerView
+
+        val adapter = PictureAdapterD(viewModel) { memory ->
+            run {}
+        }
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(
+            MarginItemDecoration(16)
+        )
 
 
         val mapFragment =
@@ -160,5 +186,8 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                     )
                 )
             )
+
+        viewModel.pictureUris = viewModel.currentMemory?.pictures?.toMutableList() ?: mutableListOf()
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 }
