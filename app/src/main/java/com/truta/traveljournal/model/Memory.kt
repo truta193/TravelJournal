@@ -23,7 +23,7 @@ data class Memory(
     var type: String,
     var mood: Double,
     var notes: String,
-    var pictures: List<Uri>?,
+    var pictures: List<String>?,
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 )

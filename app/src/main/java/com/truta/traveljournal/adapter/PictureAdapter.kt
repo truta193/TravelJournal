@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.truta.traveljournal.databinding.ItemMemoryBinding
 import com.truta.traveljournal.databinding.ItemPictureBinding
 import com.truta.traveljournal.model.Memory
@@ -40,8 +41,13 @@ class PictureAdapter(
     }
 
     override fun onBindViewHolder(holder: PictureAdapter.PictureViewHolder, position: Int) {
+        if (viewModel.pictureUris.isEmpty()) return
+        val context = holder.itemView.context
         val uri = viewModel.pictureUris[position]
-        holder.bind(uri)
+        Glide.with(context)
+            .load(Uri.parse(uri))
+            .into(holder.itemBinding.galleryPicture)
+
     }
 
     override fun getItemCount(): Int {

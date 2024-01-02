@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class AddEditMemoryViewModel(private val repository: MemoryRepository) : ViewModel() {
     var memories: LiveData<List<Memory>> = repository.allMemories
     var marker: Marker? = null
-    var pictureUris: MutableList<Uri> = mutableListOf()
+    var pictureUris: MutableList<String> = mutableListOf()
 
     fun upsertMemory(memory: Memory) = viewModelScope.launch {
         repository.upsertMemory(memory)

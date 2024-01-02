@@ -95,7 +95,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             if (uris.isNotEmpty())
                 for (uri in uris) {
                     Log.e("URITEST", uri.toString())
-                    viewModel.pictureUris.add(uri)
+                    viewModel.pictureUris.add(uri.toString())
                     recyclerView.adapter?.notifyDataSetChanged()
                 }
         }
@@ -187,16 +187,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if (intent.hasExtra("MEMORY_ID")) {
             title = "Edit Memory"
-            val memory = viewModel.getMemoryById(intent.extras!!.getInt("MEMORY_ID"))
-            val formatter = DateTimeFormatter.ofPattern("MM/dd/yy")
-
-            nameView.setText(memory.title)
-            dateView.setText(memory.date.format(formatter))
-            typeView.setText(memory.type)
-            moodView.value = memory.mood.toFloat()
-            notesView.setText(memory.notes)
-            switchView.isChecked = memory.placeLatitude != null && memory.placeLongitude != null
-            //viewModel.pictureUris = memory.pictures?.toMutableList() ?: mutableListOf()
+            fillEditFields()
         } else
             title = "Add Memory"
 
@@ -340,6 +331,15 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun fillEditFields() {
+        val memory = viewModel.getMemoryById(intent.extras!!.getInt("MEMORY_ID"))
+        val formatter = DateTimeFormatter.ofPattern("MM/dd/yy")
 
+        nameView.setText(memory.title)
+        dateView.setText(memory.date.format(formatter))
+        typeView.setText(memory.type)
+        moodView.value = memory.mood.toFloat()
+        notesView.setText(memory.notes)
+        switchView.isChecked = memory.placeLatitude != null && memory.placeLongitude != null
+        viewModel.pictureUris = memory.pictures?.toMutableList() ?: mutableListOf()
     }
 }
