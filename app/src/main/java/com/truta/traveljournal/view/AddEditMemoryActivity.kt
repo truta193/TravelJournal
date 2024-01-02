@@ -160,7 +160,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
 
-        val adapter = PictureAdapter(viewModel) { memory ->
+        val adapter = PictureAdapter(viewModel, applicationContext) { memory ->
             run {}
         }
         recyclerView = binding.addEditPictureRecyclerView

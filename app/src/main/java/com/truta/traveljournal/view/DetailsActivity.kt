@@ -81,7 +81,7 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         recyclerView = binding.detailsPicturesRecyclerView
 
-        val adapter = PictureAdapterD(viewModel) { memory ->
+        val adapter = PictureAdapterD(viewModel, applicationContext) { memory ->
             run {}
         }
         recyclerView.layoutManager = GridLayoutManager(this, 2)

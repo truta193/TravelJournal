@@ -1,5 +1,6 @@
 package com.truta.traveljournal.adapter
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,7 +14,7 @@ import com.truta.traveljournal.viewmodel.AddEditMemoryViewModel
 import com.truta.traveljournal.viewmodel.DetailsViewModel
 
 class PictureAdapter(
-    private val viewModel: AddEditMemoryViewModel, private val onItemClick: (Memory) -> Unit
+    private val viewModel: AddEditMemoryViewModel, private val context: Context, private val onItemClick: (Memory) -> Unit
 ) : RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
 
     inner class PictureViewHolder(
@@ -43,7 +44,6 @@ class PictureAdapter(
 
     override fun onBindViewHolder(holder: PictureAdapter.PictureViewHolder, position: Int) {
         if (viewModel.pictureUris.isEmpty()) return
-        val context = holder.itemView.context
         val uri = viewModel.pictureUris[position]
         Glide.with(context).load(Uri.parse(uri)).into(holder.itemBinding.galleryPicture)
 
@@ -56,7 +56,7 @@ class PictureAdapter(
 }
 
 class PictureAdapterD(
-    private val viewModel: DetailsViewModel, private val onItemClick: (Memory) -> Unit
+    private val viewModel: DetailsViewModel, private val context: Context, private val onItemClick: (Memory) -> Unit
 ) : RecyclerView.Adapter<PictureAdapterD.PictureViewHolder>() {
 
     inner class PictureViewHolder(
@@ -86,7 +86,6 @@ class PictureAdapterD(
 
     override fun onBindViewHolder(holder: PictureAdapterD.PictureViewHolder, position: Int) {
         if (viewModel.pictureUris.isEmpty()) return
-        val context = holder.itemView.context
         val uri = viewModel.pictureUris[position]
         Glide.with(context).load(Uri.parse(uri)).into(holder.itemBinding.galleryPicture)
 
