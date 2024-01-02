@@ -1,8 +1,12 @@
 package com.truta.traveljournal.view
 
+import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,9 +15,15 @@ import android.widget.AutoCompleteTextView
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -32,12 +42,15 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
 import com.truta.traveljournal.BuildConfig
+import com.truta.traveljournal.MarginItemDecoration
 import com.truta.traveljournal.R
 import com.truta.traveljournal.TravelJournalApplication
+import com.truta.traveljournal.adapter.MemoryAdapter
+import com.truta.traveljournal.adapter.PictureAdapter
 import com.truta.traveljournal.databinding.ActivityAddEditMemoryBinding
 import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.AddMemoryModelFactory
-import com.truta.traveljournal.viewmodel.AddMemoryViewModel
+import com.truta.traveljournal.viewmodel.AddEditMemoryViewModel
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -47,7 +60,7 @@ import java.util.Locale
 
 class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var binding: ActivityAddEditMemoryBinding
-    private lateinit var viewModel: AddMemoryViewModel
+    private lateinit var viewModel: AddEditMemoryViewModel
 
     private lateinit var nameView: TextInputEditText
     private lateinit var dateView: TextInputEditText
@@ -57,6 +70,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var doneFab: FloatingActionButton
     private lateinit var switchView: SwitchMaterial
     private lateinit var inputMapSearch: ImageButton
+    private lateinit var recyclerView: RecyclerView
 
     private lateinit var placesClient: PlacesClient
 
@@ -76,19 +90,41 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+    private var pictureSelectorLauncher =
+        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
+            if (uris.isNotEmpty())
+                for (uri in uris) {
+                    Log.e("URITEST", uri.toString())
+                    viewModel.pictureUris.add(uri)
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
+        }
+
+    private val requestPermissionForImageLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                pictureSelectorLauncher.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
+                )
+            }
+        }
+
+
 
     private val calendar: Calendar = Calendar.getInstance()
 
     private lateinit var geocoder: Geocoder
     private lateinit var mMap: GoogleMap
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddEditMemoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+//region Init stuff
         if (!Places.isInitialized()) {
             Places.initialize(
                 applicationContext,
@@ -103,12 +139,12 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         viewModel = ViewModelProvider(
             this,
             AddMemoryModelFactory((this.application as TravelJournalApplication).repository)
-        )[AddMemoryViewModel::class.java]
+        )[AddEditMemoryViewModel::class.java]
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.inputMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
+//endregion
         switchView = binding.switch1
         switchView.setOnCheckedChangeListener { button, b ->
             if (b) {
@@ -128,7 +164,17 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             launchPlacesSearch()
         }
 
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+
+        val adapter = PictureAdapter(viewModel) { memory ->
+            run {}
+        }
+        recyclerView = binding.addEditPictureRecyclerView
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(
+            MarginItemDecoration(16)
+        )
+
 
         nameView = binding.inputName
         dateView = binding.inputDate
@@ -150,6 +196,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             moodView.value = memory.mood.toFloat()
             notesView.setText(memory.notes)
             switchView.isChecked = memory.placeLatitude != null && memory.placeLongitude != null
+            //viewModel.pictureUris = memory.pictures?.toMutableList() ?: mutableListOf()
         } else
             title = "Add Memory"
 
@@ -182,9 +229,28 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+        binding.buttonAddPhoto.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_MEDIA_IMAGES
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissionForImageLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+            } else {
+                pictureSelectorLauncher.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
+                )
+            }
+
+        }
+
         doneFab = binding.fabDone
         doneFab.setOnClickListener {
-            if (nameView.text.toString().trim().isEmpty() || dateView.text.toString().trim().isEmpty()) {
+            if (nameView.text.toString().trim().isEmpty() || dateView.text.toString().trim()
+                    .isEmpty()
+            ) {
                 Toast.makeText(this, "Title and Date cannot be empty", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -199,7 +265,9 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                 LocalDate.parse(dateView.text.toString(), formatter),
                 typeView.text.toString(),
                 moodView.value.toDouble(),
-                notesView.text.toString())
+                notesView.text.toString(),
+                viewModel.pictureUris
+            )
             if (intent.hasExtra("MEMORY_ID")) {
                 val mem = viewModel.getMemoryById(intent.extras!!.getInt("MEMORY_ID"))
                 memory.isFavorite = mem.isFavorite
@@ -269,5 +337,9 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                 .position(location)
                 .title(title)
         )
+    }
+
+    private fun fillEditFields() {
+
     }
 }

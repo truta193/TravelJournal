@@ -1,4 +1,4 @@
-package com.truta.traveljournal.adapters
+package com.truta.traveljournal.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

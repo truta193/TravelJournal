@@ -1,5 +1,6 @@
 package com.truta.traveljournal.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,9 +10,10 @@ import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.repository.MemoryRepository
 import kotlinx.coroutines.launch
 
-class AddMemoryViewModel(private val repository: MemoryRepository) : ViewModel() {
+class AddEditMemoryViewModel(private val repository: MemoryRepository) : ViewModel() {
     var memories: LiveData<List<Memory>> = repository.allMemories
     var marker: Marker? = null
+    var pictureUris: MutableList<Uri> = mutableListOf()
 
     fun upsertMemory(memory: Memory) = viewModelScope.launch {
         repository.upsertMemory(memory)
@@ -25,8 +27,8 @@ class AddMemoryViewModel(private val repository: MemoryRepository) : ViewModel()
 
 class AddMemoryModelFactory(private val repository: MemoryRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AddMemoryViewModel::class.java))
-            return AddMemoryViewModel(repository) as T
+        if (modelClass.isAssignableFrom(AddEditMemoryViewModel::class.java))
+            return AddEditMemoryViewModel(repository) as T
         throw IllegalAccessException("Unknown class for ViewModel")
     }
 }
