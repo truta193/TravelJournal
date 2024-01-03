@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.homeFragment -> navController.navigate(R.id.homeFragment)
             R.id.testFragment -> navController.navigate(R.id.testFragment)
+            R.id.settingsFragment -> navController.navigate(R.id.settingsFragment)
             R.id.aboutUsFragment -> navController.navigate(R.id.aboutUsFragment)
             R.id.contactUs -> {
                 composeEmail()
