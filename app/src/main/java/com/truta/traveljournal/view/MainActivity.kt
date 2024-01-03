@@ -1,5 +1,7 @@
 package com.truta.traveljournal.view
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -73,6 +75,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.homeFragment -> navController.navigate(R.id.homeFragment)
             R.id.testFragment -> navController.navigate(R.id.testFragment)
+            R.id.aboutUsFragment -> navController.navigate(R.id.aboutUsFragment)
+            R.id.contactUs -> {
+                composeEmail()
+                return false
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
@@ -81,4 +88,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
+
+    fun composeEmail() {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:trutaandrei7033@gmail.com") // Only email apps handle this.
+            putExtra(Intent.EXTRA_SUBJECT, "Contact")
+        }
+
+            startActivity(intent)
+
+    }
+
 }

@@ -12,5 +12,15 @@
             android:id="@+id/testFragment"
             android:icon="@drawable/ic_home"
             android:title="Test" />
+
+        <item
+            android:id="@+id/aboutUsFragment"
+            android:icon="@drawable/ic_info"
+            android:title="About Us"/>
+
+        <item
+            android:id="@+id/contactUs"
+            android:icon="@drawable/ic_travel_type"
+            android:title="Contact Us"/>
     </group>
 </menu>
