@@ -14,7 +14,6 @@ android {
     compileSdk = 34
 
     android.buildFeatures.buildConfig = true
-    val key: String = gradleLocalProperties(rootDir).getProperty("MAPS_API_KEY")
 
     defaultConfig {
         applicationId = "com.truta.traveljournal"
@@ -33,9 +32,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-
         }
-
     }
 
     buildFeatures {
@@ -80,4 +77,6 @@ dependencies {
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 }

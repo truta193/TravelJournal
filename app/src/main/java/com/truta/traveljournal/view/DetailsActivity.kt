@@ -3,6 +3,7 @@ package com.truta.traveljournal.view
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import com.truta.traveljournal.R
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -20,17 +22,20 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.truta.traveljournal.BuildConfig
 import com.truta.traveljournal.MarginItemDecoration
 import com.truta.traveljournal.TravelJournalApplication
 import com.truta.traveljournal.adapter.PictureAdapter
 import com.truta.traveljournal.adapter.PictureAdapterD
 import com.truta.traveljournal.databinding.ActivityDetailsBinding
+import com.truta.traveljournal.service.WeatherService
 import com.truta.traveljournal.viewmodel.DetailsModelFactory
 import com.truta.traveljournal.viewmodel.DetailsViewModel
 
@@ -68,11 +73,29 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         viewModel = ViewModelProvider(
             this, DetailsModelFactory(
                 (this.application as TravelJournalApplication).repository,
-                intent.extras?.getInt("MEMORY_ID")!!
+                WeatherService.weatherService
             )
         )[DetailsViewModel::class.java]
 
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+        viewModel.weatherGetSuccess.observe(this) {
+            binding.weatherDetail.text = viewModel.details.value
+            binding.weatherTemp.text = viewModel.temp.value
+            Glide.with(this)
+                .load(viewModel.icon.value)
+                .into(binding.weatherIcon)
+        }
+        viewModel.weatherGetFailure.observe(this) {
+            if (it) {
+                Toast.makeText(
+                    this,
+                    "Failed Weather",
+                    Toast.LENGTH_SHORT
+                ).show()
+                viewModel.eventWeatherGetFailureFinish()
+            }
+        }
 
         viewModel.memories.observe(this) {
             viewModel.currentMemory = viewModel.getMemoryById(intent.extras?.getInt("MEMORY_ID")!!)
@@ -130,15 +153,23 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         Log.i("MAPTEST", viewModel.currentMemory.toString())
-        if (viewModel.currentMemory!!.placeLongitude != null && viewModel.currentMemory!!.placeLatitude != null) marker =
-            mMap?.addMarker(
-                MarkerOptions().title(viewModel.currentMemory?.title).position(
-                    LatLng(
-                        viewModel.currentMemory!!.placeLatitude!!,
-                        viewModel.currentMemory!!.placeLongitude!!
+        if (viewModel.currentMemory!!.placeLongitude != null && viewModel.currentMemory!!.placeLatitude != null) {
+            marker =
+                mMap?.addMarker(
+                    MarkerOptions().title(viewModel.currentMemory?.title).position(
+                        LatLng(
+                            viewModel.currentMemory!!.placeLatitude!!,
+                            viewModel.currentMemory!!.placeLongitude!!
+                        )
                     )
                 )
+
+            viewModel.getWeatherData(
+                viewModel.currentMemory!!.placeLatitude!!,
+                viewModel.currentMemory!!.placeLatitude!!,
+                BuildConfig.WEATHER_API_KEY
             )
+        }
 
     }
 
@@ -147,10 +178,13 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         dateView.text = viewModel.currentMemory?.date.toString()
 
         if (viewModel.currentMemory?.placeLatitude == null || viewModel.currentMemory?.placeLongitude == null) {
+            binding.detailsWeatherContainer.visibility = View.GONE
             mapLayout.visibility = View.GONE
         } else {
+            binding.detailsWeatherContainer.visibility = View.VISIBLE
             mapLayout.visibility = View.VISIBLE
         }
+
 
 
         when (viewModel.currentMemory!!.mood) {
