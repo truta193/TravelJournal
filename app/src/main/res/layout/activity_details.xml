@@ -47,14 +47,15 @@
                     style="@style/TextAppearance.Material3.TitleLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Title" />
+                    android:text="@string/details_title" />
 
                 <ImageView
                     android:id="@+id/detailsMood"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
-                    app:srcCompat="@drawable/ic_mood_happy" />
+                    app:srcCompat="@drawable/ic_mood_happy"
+                    android:contentDescription="@string/details_mood_description" />
             </LinearLayout>
 
             <TextView
@@ -62,7 +63,7 @@
                 style="@style/TextAppearance.Material3.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20/20/2020"
+                android:text="@string/details_default_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailsTitleLayout" />
 
@@ -72,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:text="Type"
+                android:text="@string/details_type"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detailsDate" />
 
@@ -86,7 +87,8 @@
             android:layout_height="125dp"
             android:src="@drawable/ic_mood_sad"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/details_thumbnail_description" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -105,7 +107,8 @@
             android:layout_height="64dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:contentDescription="@string/details_weather_icon" />
 
         <TextView
             android:id="@+id/weatherDetail"
@@ -113,7 +116,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/weatherIcon"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="Placeholder"
+            android:text=""
             style="@style/TextAppearance.Material3.TitleSmall"/>
 
         <TextView
@@ -122,7 +125,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@+id/weatherIcon"
             app:layout_constraintTop_toBottomOf="@+id/weatherDetail"
-            android:text="Placeholder"
+            android:text=""
             style="@style/TextAppearance.Material3.TitleLarge"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -153,7 +156,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:text="Notes"
+        android:text="@string/details_notes"
         app:flow_wrapMode="aligned"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

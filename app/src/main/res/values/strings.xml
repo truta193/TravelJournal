@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TravelJournal</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="open_nav">Open drawer</string>
     <string name="close_nav">Close drawer</string>
     <string name="title_hint">Title</string>
@@ -18,11 +18,15 @@
     <string name="settings_theme_value_default" translatable="false">DEFAULT</string>
     <string name="settings_theme_value_light" translatable="false">LIGHT</string>
     <string name="settings_theme_value_dark" translatable="false">DARK</string>
-    <string name="about_license">
 
+    <string-array name="travel_types">
+        <item>Business</item>
+        <item>Leisure</item>
+        <item>Family</item>
+    </string-array>
 
-
-Copyright 2024 Truta Andrei\n
+    <string name="about_license" translatable="false">
+        Copyright 2024 Truta Andrei\n
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n
 
@@ -30,24 +34,31 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </string>
-    <string-array name="travel_types">
-        <item>Business</item>
-        <item>Leisure</item>
-        <item>Family</item>
-    </string-array>
-    <!-- Preference Titles -->
-    <string name="messages_header">Messages</string>
-    <string name="sync_header">Sync</string>
-
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
-
+    <string name="add_edit_fab_description">Add a new Memory</string>
+    <string name="add_edit_enable_location_switch">Enable Location</string>
+    <string name="add_edit_search_button_description">Places search button</string>
+    <string name="add_edit_sad_mood_description">Sad Mood</string>
+    <string name="add_edit_neutral_mood_description">Neutral mood</string>
+    <string name="add_edit_happy_mood_description">Happy mood</string>
+    <string name="add_edit_add_photo">Add Photo</string>
+    <string name="details_title">Title</string>
+    <string name="details_mood_description">Details Mood</string>
+    <string name="details_default_date" translatable="false">20/20/2020</string>
+    <string name="details_type">Type</string>
+    <string name="details_thumbnail_description">Details Thumbnail</string>
+    <string name="details_weather_icon">Weather Icon</string>
+    <string name="details_notes">Notes</string>
+    <string name="about_us_developer" translatable="false">Developer: Truta Andrei</string>
+    <string name="about_us_app_version" translatable="false">App Version: 1.0.0-alpha</string>
+    <string name="home_fab_description">Done</string>
+    <string name="item_memory_thumbnail_description">Memory thumbnail</string>
+    <string name="item_memory_favorite_description">Favorite Button</string>
+    <string name="item_picture_description">User Picture</string>
+    <string name="nav_header_home_icon">Home icon</string>
+    <string name="nav_logout">Logout</string>
+    <string name="details_edit">Edit</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about">About Us</string>
+    <string name="nav_contact">Contact Us</string>
 </resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TravelJournal</string>
+    <string name="open_nav">Deschide sertar</string>
+    <string name="close_nav">Inchide sertar</string>
+    <string name="title_hint">Titlu</string>
+    <string name="date_hint">Data</string>
+    <string name="type_hint">Tip</string>
+    <string name="notes_hint">Note</string>
+    <string name="settings_theme_title">Alege tema</string>
+    <string name="settings_theme_dialog_title">Alege tema</string>
+    <string name="settings_toolbar">Setari</string>
+    <string name="add_edit_fab_description">Adauga o memorie noua</string>
+    <string name="add_edit_enable_location_switch">Permite locatia</string>
+    <string name="add_edit_search_button_description">Buton cautare locatii</string>
+    <string name="add_edit_sad_mood_description">Trist</string>
+    <string name="add_edit_neutral_mood_description">Neutru</string>
+    <string name="add_edit_happy_mood_description">Fericit</string>
+    <string name="add_edit_add_photo">Adauga o poza</string>
+    <string name="details_title">Titlu</string>
+    <string name="details_mood_description">Detalii mood</string>
+    <string name="details_type">Tip</string>
+    <string name="details_thumbnail_description">Thumbnail detalii</string>
+    <string name="details_weather_icon">Pictograma vreme</string>
+    <string name="details_notes">Note</string>
+    <string name="home_fab_description">Gata</string>
+    <string name="item_memory_thumbnail_description">Thumbnail memorie</string>
+    <string name="item_memory_favorite_description">Buton favorite</string>
+    <string name="item_picture_description">Poza de la utilizator</string>
+    <string name="nav_header_home_icon">Pictograma acasa</string>
+    <string name="nav_logout">Iesire din cont</string>
+    <string name="details_edit">Editare</string>
+    <string name="nav_home">Acasa</string>
+    <string name="nav_settings">Setari</string>
+    <string name="nav_about">Despre noi</string>
+    <string name="nav_contact">Contacteaza-ne</string>
+</resources>

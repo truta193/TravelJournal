@@ -6,7 +6,7 @@
         <item
             android:id="@+id/homeFragment"
             android:icon="@drawable/ic_home"
-            android:title="Home" />
+            android:title="@string/nav_home" />
 
         <item
             android:id="@+id/testFragment"
@@ -16,16 +16,16 @@
         <item
             android:id="@+id/settingsFragment"
             android:icon="@drawable/ic_mood_sad"
-            android:title="Settings"/>
+            android:title="@string/nav_settings"/>
 
         <item
             android:id="@+id/aboutUsFragment"
             android:icon="@drawable/ic_info"
-            android:title="About Us"/>
+            android:title="@string/nav_about"/>
 
         <item
             android:id="@+id/contactUs"
             android:icon="@drawable/ic_travel_type"
-            android:title="Contact Us"/>
+            android:title="@string/nav_contact"/>
     </group>
 </menu>
