@@ -8,7 +8,19 @@
     <string name="date_hint">Date</string>
     <string name="type_hint">Type</string>
     <string name="notes_hint">Notes</string>
+
+    <string name="settings_theme_key" translatable="false">theme</string>
+    <string name="settings_fragment_tab" translatable="false">settings_fragment_tab</string>
+    <string name="settings_theme_title">Choose theme</string>
+    <string name="settings_theme_dialog_title">Choose theme</string>
+    <string name="settings_toolbar">Settings</string>
+
+    <string name="settings_theme_value_default" translatable="false">DEFAULT</string>
+    <string name="settings_theme_value_light" translatable="false">LIGHT</string>
+    <string name="settings_theme_value_dark" translatable="false">DARK</string>
     <string name="about_license">
+
+
 
 Copyright 2024 Truta Andrei\n
 
@@ -37,4 +49,5 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
 </resources>

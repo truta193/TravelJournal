@@ -21,11 +21,11 @@
         <activity
             android:name=".view.DetailsActivity"
             android:exported="false"
-            android:theme="@style/Theme.Material3.DayNight.NoActionBar"/>
+            android:theme="@style/Base.Theme.TravelJournal"/>
         <activity
             android:name=".view.AddEditMemoryActivity"
             android:exported="false"
-            android:theme="@style/Theme.Material3.DayNight.NoActionBar" />
+            android:theme="@style/Base.Theme.TravelJournal" />
         <activity
             android:name=".view.MainActivity"
             android:exported="true" >
