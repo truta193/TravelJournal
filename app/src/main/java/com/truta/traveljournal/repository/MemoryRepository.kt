@@ -14,6 +14,11 @@ class MemoryRepository(private val memoryDao: IMemoryDao) {
         memoryDao.upsert(memory)
     }
 
+    @WorkerThread
+    suspend fun deleteMemory(memory: Memory) {
+        memoryDao.delete(memory)
+    }
+
     fun getMemoryById(id: Int): LiveData<Memory> {
         return memoryDao.getById(id)
     }

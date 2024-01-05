@@ -68,6 +68,10 @@ class DetailsViewModel(private val repository: MemoryRepository, weatherService:
         return memories.value?.find { it -> it.id == id }
     }
 
+    fun deleteMemory(memory: Memory) = viewModelScope.launch {
+        repository.deleteMemory(memory)
+    }
+
 }
 
 class DetailsModelFactory(

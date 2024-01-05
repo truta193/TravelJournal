@@ -3,10 +3,8 @@ package com.truta.traveljournal.view
 import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -18,15 +16,10 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -46,7 +39,6 @@ import com.truta.traveljournal.BuildConfig
 import com.truta.traveljournal.MarginItemDecoration
 import com.truta.traveljournal.R
 import com.truta.traveljournal.TravelJournalApplication
-import com.truta.traveljournal.adapter.MemoryAdapter
 import com.truta.traveljournal.adapter.PictureAdapter
 import com.truta.traveljournal.databinding.ActivityAddEditMemoryBinding
 import com.truta.traveljournal.model.Memory
@@ -282,6 +274,8 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         } else {
             mMap = googleMap
         }
+
+
 
         if (viewModel.marker != null) moveMarker(
             viewModel.marker!!.title!!, viewModel.marker!!.position

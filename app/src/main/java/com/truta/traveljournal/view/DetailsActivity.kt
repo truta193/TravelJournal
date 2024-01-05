@@ -1,9 +1,6 @@
 package com.truta.traveljournal.view
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import com.truta.traveljournal.R
 import android.os.Bundle
 import android.util.Log
@@ -14,11 +11,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.PickVisualMediaRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +26,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.truta.traveljournal.BuildConfig
 import com.truta.traveljournal.MarginItemDecoration
 import com.truta.traveljournal.TravelJournalApplication
-import com.truta.traveljournal.adapter.PictureAdapter
 import com.truta.traveljournal.adapter.PictureAdapterD
 import com.truta.traveljournal.databinding.ActivityDetailsBinding
 import com.truta.traveljournal.service.WeatherService
@@ -99,7 +92,8 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         viewModel.memories.observe(this) {
             viewModel.currentMemory = viewModel.getMemoryById(intent.extras?.getInt("MEMORY_ID")!!)
-            updateUI()
+            if (viewModel.currentMemory != null)
+                updateUI()
         }
 
         recyclerView = binding.detailsPicturesRecyclerView
@@ -139,6 +133,12 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             startActivity(i);
             true
         }
+        R.id.detailsDeleteMenu -> {
+            if (viewModel.currentMemory != null)
+                viewModel.deleteMemory(viewModel.currentMemory!!)
+                finish()
+            true
+        }
 
         else -> super.onOptionsItemSelected(item)
 
@@ -152,7 +152,6 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        Log.i("MAPTEST", viewModel.currentMemory.toString())
         if (viewModel.currentMemory!!.placeLongitude != null && viewModel.currentMemory!!.placeLatitude != null) {
             marker =
                 mMap?.addMarker(
