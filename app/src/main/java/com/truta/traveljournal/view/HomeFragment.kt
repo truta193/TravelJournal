@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.truta.traveljournal.MarginItemDecoration
@@ -14,7 +16,9 @@ import com.truta.traveljournal.viewmodel.HomeViewModel
 import com.truta.traveljournal.adapter.MemoryAdapter
 import com.truta.traveljournal.TravelJournalApplication
 import com.truta.traveljournal.databinding.FragmentHomeBinding
+import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.HomeMemoryModelFactory
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
@@ -49,6 +53,10 @@ class HomeFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
 
+        viewModel.shareText.observe(viewLifecycleOwner) {
+            launchShare()
+        }
+
 
         fab = binding.fabAdd
         fab.setOnClickListener {
@@ -59,5 +67,16 @@ class HomeFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    fun launchShare() = viewModel.viewModelScope.launch {
+       val sendIntent: Intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, viewModel.shareText.value)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, null)
+        startActivity(shareIntent)
     }
 }
