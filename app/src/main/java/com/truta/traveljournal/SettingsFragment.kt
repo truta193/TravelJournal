@@ -14,34 +14,9 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import java.util.Locale
-
+import com.truta.traveljournal.service.ThemeService
 
 class SettingsFragment : PreferenceFragmentCompat() {
-    fun applyTheme(mode: String, context: Context) {
-        if (context.getString(R.string.settings_theme_value_dark) == mode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else if (context.getString(R.string.settings_theme_value_light) == mode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-        }
-    }
-
-//    fun updateLanguage(context: Context, selectedLanguage: String) {
-//        if ("" != selectedLanguage) {
-//            if ("English" == selectedLanguage) {
-//                selectedLanguage = "en"
-//            } else if ("Traditional Chinese" == selectedLanguage) {
-//                selectedLanguage = "zh"
-//            }
-//            val locale = Locale(selectedLanguage)
-//            Locale.setDefault(locale)
-//            val config = Configuration()
-//            config.locale = locale
-//            context.resources.updateConfiguration(config, null)
-//        }
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -54,7 +29,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         preferenceManager.findPreference<Preference>(getString(R.string.settings_theme_key))?.onPreferenceChangeListener =
             Preference.OnPreferenceChangeListener { preference: Preference?, newValue: Any? ->
-                applyTheme(newValue as String, requireContext())
+                ThemeService.applyTheme(newValue as String, requireContext())
                 true
             }
 
