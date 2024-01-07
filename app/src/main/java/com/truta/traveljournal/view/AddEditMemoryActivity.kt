@@ -3,6 +3,9 @@ package com.truta.traveljournal.view
 import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
@@ -18,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -122,6 +126,9 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             placesClient = Places.createClient(applicationContext)
         }
 
+        intent.addFlags(FLAG_GRANT_READ_URI_PERMISSION)
+        intent.addFlags(FLAG_GRANT_WRITE_URI_PERMISSION)
+        intent.addFlags(FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
         geocoder = Geocoder(this, Locale.getDefault())
 
         viewModel = ViewModelProvider(
@@ -275,7 +282,12 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap = googleMap
         }
 
-
+        val isSatellite = PreferenceManager.getDefaultSharedPreferences(applicationContext).getBoolean(getString(R.string.map_satellite_view_settings), false)
+        if (isSatellite) {
+            mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
+        } else {
+            mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
+        }
 
         if (viewModel.marker != null) moveMarker(
             viewModel.marker!!.title!!, viewModel.marker!!.position

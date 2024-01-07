@@ -21,7 +21,7 @@
         app:title="Turn on notifications"/>
 
     <SwitchPreference
-        app:key="map_satellite_view"
-        app:title="Use map satellite view"/>
+        app:key="@string/map_satellite_view_settings"
+        app:title="Use map satellite view" />
 
 </PreferenceScreen>

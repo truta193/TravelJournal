@@ -3,7 +3,6 @@ package com.truta.traveljournal.view
 import android.content.Intent
 import com.truta.traveljournal.R
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -14,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -71,6 +71,8 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         )[DetailsViewModel::class.java]
 
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+        intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
 
         viewModel.weatherGetSuccess.observe(this) {
             binding.weatherDetail.text = viewModel.details.value
@@ -101,6 +103,7 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
         val adapter = PictureAdapterD(viewModel, applicationContext) { memory ->
             run {}
         }
+
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = adapter
         recyclerView.addItemDecoration(
@@ -152,6 +155,14 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+
+        val isSatellite = PreferenceManager.getDefaultSharedPreferences(applicationContext).getBoolean(getString(R.string.map_satellite_view_settings), false)
+        if (isSatellite) {
+            mMap?.mapType = GoogleMap.MAP_TYPE_SATELLITE
+        } else {
+            mMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+        }
+
         if (viewModel.currentMemory!!.placeLongitude != null && viewModel.currentMemory!!.placeLatitude != null) {
             marker =
                 mMap?.addMarker(
