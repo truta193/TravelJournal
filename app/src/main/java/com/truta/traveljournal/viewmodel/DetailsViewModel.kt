@@ -1,14 +1,10 @@
 package com.truta.traveljournal.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.repository.MemoryRepository
 import com.truta.traveljournal.service.WeatherService
@@ -16,15 +12,13 @@ import com.truta.traveljournal.service.WeatherService.Companion.weatherService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import kotlin.math.roundToInt
 
 class DetailsViewModel(private val repository: MemoryRepository, weatherService: WeatherService) :
     ViewModel() {
     var memories = repository.allMemories
     var currentMemory: Memory? = null
-    var pictureUris: MutableList<String> = mutableListOf()
+    var picturePaths: MutableList<String> = mutableListOf()
 
     private var _weatherGetSuccess = MutableLiveData<Boolean>()
     val weatherGetSuccess: LiveData<Boolean> get() = _weatherGetSuccess

@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class AddEditMemoryViewModel(private val repository: MemoryRepository) : ViewModel() {
     var memories: LiveData<List<Memory>> = repository.allMemories
     var marker: Marker? = null
-    var pictureUris: MutableList<String> = mutableListOf()
+    var picturePaths: MutableList<String> = mutableListOf()
 
     fun upsertMemory(memory: Memory) = viewModelScope.launch {
         repository.upsertMemory(memory)
@@ -25,23 +25,7 @@ class AddEditMemoryViewModel(private val repository: MemoryRepository) : ViewMod
     fun getMemoryById(id: Int): Memory {
         return memories.value!!.find { it -> it.id == id }!!
     }
-
-    fun getRealPathFromUri(context: Context, uri: Uri): String? {
-        var cursor: Cursor? = null
-        try {
-            val projection = arrayOf(MediaStore.Images.Media.DATA)
-            cursor = context.contentResolver.query(uri, projection, null, null, null)
-            if (cursor != null && cursor.moveToFirst()) {
-                val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-                return cursor.getString(columnIndex)
-            }
-        } finally {
-            cursor?.close()
-        }
-        return null
     }
-
-}
 
 class AddMemoryModelFactory(private val repository: MemoryRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

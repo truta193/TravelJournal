@@ -3,12 +3,15 @@ package com.truta.traveljournal.view
 import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.content.Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
 import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
@@ -16,9 +19,9 @@ import android.widget.AutoCompleteTextView
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
@@ -46,8 +49,8 @@ import com.truta.traveljournal.TravelJournalApplication
 import com.truta.traveljournal.adapter.PictureAdapter
 import com.truta.traveljournal.databinding.ActivityAddEditMemoryBinding
 import com.truta.traveljournal.model.Memory
-import com.truta.traveljournal.viewmodel.AddMemoryModelFactory
 import com.truta.traveljournal.viewmodel.AddEditMemoryViewModel
+import com.truta.traveljournal.viewmodel.AddMemoryModelFactory
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -85,29 +88,6 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                 Log.i("TAG", "User canceled autocomplete")
             }
         }
-
-    private var pictureSelectorLauncher =
-        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
-            if (uris.isNotEmpty())
-                for (uri in uris) {
-                    Log.e("URITEST", uri.toString())
-                    viewModel.pictureUris.add(uri.toString())
-                    recyclerView.adapter?.notifyDataSetChanged()
-                }
-        }
-
-    private val requestPermissionForImageLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            pictureSelectorLauncher.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
-                )
-            )
-        }
-    }
-
 
     private val calendar: Calendar = Calendar.getInstance()
 
@@ -223,13 +203,14 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                     this, Manifest.permission.READ_MEDIA_IMAGES
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                requestPermissionForImageLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-            } else {
-                pictureSelectorLauncher.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly
-                    )
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                    12
                 )
+            } else {
+                val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(galleryIntent, 11)
             }
         }
 
@@ -253,7 +234,7 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                 typeView.text.toString(),
                 moodView.value.toDouble(),
                 notesView.text.toString(),
-                viewModel.pictureUris
+                viewModel.picturePaths
             )
             if (intent.hasExtra("MEMORY_ID")) {
                 val mem = viewModel.getMemoryById(intent.extras!!.getInt("MEMORY_ID"))
@@ -351,6 +332,51 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         moodView.value = memory.mood.toFloat()
         notesView.setText(memory.notes)
         switchView.isChecked = memory.placeLatitude != null && memory.placeLongitude != null
-        viewModel.pictureUris = memory.pictures?.toMutableList() ?: mutableListOf()
+        viewModel.picturePaths = memory.pictures?.toMutableList() ?: mutableListOf()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                11 -> {
+                    data?.data?.let { uri ->
+                        val imagePath = getRealPathFromURI(uri)
+                        Log.e("PICPATH", imagePath)
+                        viewModel.picturePaths.add(imagePath)
+                        recyclerView.adapter?.notifyDataSetChanged()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            12 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    startActivityForResult(galleryIntent, 11)
+                } else {
+                    Toast.makeText(this, "Permission not granted!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun getRealPathFromURI(uri: Uri): String {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        cursor?.moveToFirst()
+        val filePath = cursor?.getString(columnIndex ?: 0) ?: ""
+        cursor?.close()
+        return filePath
     }
 }

@@ -3,6 +3,7 @@ package com.truta.traveljournal.view
 import android.content.Intent
 import com.truta.traveljournal.R
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -195,8 +196,6 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
             mapLayout.visibility = View.VISIBLE
         }
 
-
-
         when (viewModel.currentMemory!!.mood) {
             in 0.0..0.33 -> moodView.setImageDrawable(
                 AppCompatResources.getDrawable(
@@ -231,7 +230,8 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             )
 
-        viewModel.pictureUris = viewModel.currentMemory?.pictures?.toMutableList() ?: mutableListOf()
+        viewModel.picturePaths = viewModel.currentMemory?.pictures?.toMutableList() ?: mutableListOf()
+        Log.e("DETAILSPIC", viewModel.picturePaths.toString())
         recyclerView.adapter?.notifyDataSetChanged()
     }
 }
