@@ -65,4 +65,5 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
     <string name="nav_contact">Contact Us</string>
 
     <string name="map_satellite_view_settings" translatable="false">map_satellite_view</string>
+    <string name="map_zoom_view_settings" translatable="false">map_zoom_view</string>
 </resources>

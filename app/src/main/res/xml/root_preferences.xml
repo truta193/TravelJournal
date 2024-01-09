@@ -24,4 +24,8 @@
         app:key="@string/map_satellite_view_settings"
         app:title="Use map satellite view" />
 
+    <SwitchPreference
+        app:key="@string/map_zoom_view_settings"
+        app:title="Show zoom scale on map"/>
+
 </PreferenceScreen>

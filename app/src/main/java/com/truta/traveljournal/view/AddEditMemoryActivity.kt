@@ -90,10 +90,10 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia()) { uris ->
             if (uris.isNotEmpty())
                 for (uri in uris) {
-                Log.e("URITEST", uri.toString())
-                viewModel.pictureUris.add(uri.toString())
-                recyclerView.adapter?.notifyDataSetChanged()
-            }
+                    Log.e("URITEST", uri.toString())
+                    viewModel.pictureUris.add(uri.toString())
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
         }
 
     private val requestPermissionForImageLauncher = registerForActivityResult(
@@ -144,10 +144,16 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             if (b) {
                 binding.mapContainer.visibility = View.VISIBLE
                 inputMapSearch.visibility = View.VISIBLE
+                if (PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                        .getBoolean(getString(R.string.map_zoom_view_settings), false)
+                )
+                    binding.zoomCardView.visibility = View.VISIBLE
 
             } else {
                 binding.mapContainer.visibility = View.GONE
                 inputMapSearch.visibility = View.GONE
+                binding.zoomCardView.visibility = View.GONE
+
                 viewModel.marker?.remove()
                 viewModel.marker = null
             }
@@ -281,7 +287,8 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
             mMap = googleMap
         }
 
-        val isSatellite = PreferenceManager.getDefaultSharedPreferences(applicationContext).getBoolean(getString(R.string.map_satellite_view_settings), false)
+        val isSatellite = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+            .getBoolean(getString(R.string.map_satellite_view_settings), false)
         if (isSatellite) {
             mMap.mapType = GoogleMap.MAP_TYPE_SATELLITE
         } else {
@@ -303,6 +310,16 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             }
         }
+
+        val isZoom = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+            .getBoolean(getString(R.string.map_zoom_view_settings), false)
+
+        if (isZoom)
+            mMap.setOnCameraMoveListener {
+                binding.zoomView.text = "%.2f".format(mMap.cameraPosition.zoom)
+            }
+
+
 
         mMap.setOnPoiClickListener { poi ->
             moveMarker(poi.name, poi.latLng)

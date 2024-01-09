@@ -31,6 +31,6 @@
         tools:layout="@layout/fragment_about_us" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.truta.traveljournal.SettingsFragment"
+        android:name="com.truta.traveljournal.view.SettingsFragment"
         android:label="SettingsFragment" />
 </navigation>

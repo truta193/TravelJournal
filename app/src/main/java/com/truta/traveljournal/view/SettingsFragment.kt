@@ -1,19 +1,15 @@
-package com.truta.traveljournal
+package com.truta.traveljournal.view
 
 import android.app.LocaleManager
-import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.LocaleList
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import java.util.Locale
+import com.truta.traveljournal.R
 import com.truta.traveljournal.service.ThemeService
 
 class SettingsFragment : PreferenceFragmentCompat() {
