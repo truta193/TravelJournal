@@ -8,9 +8,11 @@ import android.content.Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
 import android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
 import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -51,6 +53,9 @@ import com.truta.traveljournal.databinding.ActivityAddEditMemoryBinding
 import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.AddEditMemoryViewModel
 import com.truta.traveljournal.viewmodel.AddMemoryModelFactory
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -206,11 +211,28 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.READ_MEDIA_IMAGES),
+                    11
+                )
+            } else {
+                val galleryIntent =
+                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                startActivityForResult(galleryIntent, 11)
+            }
+        }
+
+        binding.buttonTakePhoto.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    this, Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CAMERA),
                     12
                 )
             } else {
-                val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                startActivityForResult(galleryIntent, 11)
+                val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(cameraIntent, 12)
             }
         }
 
@@ -348,6 +370,14 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                         recyclerView.adapter?.notifyDataSetChanged()
                     }
                 }
+
+                12 -> {
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    val imagePath = saveImageToInternalStorage(imageBitmap)
+                    Log.e("PICPATH", imagePath)
+                    viewModel.picturePaths.add(imagePath)
+                    recyclerView.adapter?.notifyDataSetChanged()
+                }
             }
         }
     }
@@ -359,14 +389,24 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            12 -> {
+            11 -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    val galleryIntent =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     startActivityForResult(galleryIntent, 11)
                 } else {
                     Toast.makeText(this, "Permission not granted!", Toast.LENGTH_SHORT).show()
                 }
             }
+
+            12 ->
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                    startActivityForResult(cameraIntent, 12)
+                } else {
+                    Toast.makeText(this, "Permission not granted!", Toast.LENGTH_SHORT).show()
+                }
+
         }
     }
 
@@ -378,5 +418,19 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
         val filePath = cursor?.getString(columnIndex ?: 0) ?: ""
         cursor?.close()
         return filePath
+    }
+
+    private fun saveImageToInternalStorage(bitmap: Bitmap): String {
+        val fileOutputStream: FileOutputStream
+        val file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "image.jpg")
+        try {
+            fileOutputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+            fileOutputStream.flush()
+            fileOutputStream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return file.absolutePath
     }
 }
