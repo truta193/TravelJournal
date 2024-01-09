@@ -32,9 +32,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-//        var keepSplashOnScreen = true
-//        installSplashScreen().setKeepOnScreenCondition { keepSplashOnScreen }
-//        Handler(Looper.getMainLooper()).postDelayed({ keepSplashOnScreen = false }, 2000)
+        var keepSplashOnScreen = true
+        installSplashScreen().setKeepOnScreenCondition { keepSplashOnScreen }
+        Handler(Looper.getMainLooper()).postDelayed({ keepSplashOnScreen = false }, 2000)
         installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

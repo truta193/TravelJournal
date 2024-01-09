@@ -225,7 +225,6 @@ class AddEditMemoryActivity : AppCompatActivity(), OnMapReadyCallback {
                     )
                 )
             }
-
         }
 
         doneFab = binding.fabDone
