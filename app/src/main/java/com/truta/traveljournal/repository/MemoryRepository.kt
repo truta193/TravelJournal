@@ -1,6 +1,5 @@
 package com.truta.traveljournal.repository
 
-import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.truta.traveljournal.database.IMemoryDao

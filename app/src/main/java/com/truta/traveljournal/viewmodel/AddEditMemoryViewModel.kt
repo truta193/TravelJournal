@@ -1,9 +1,5 @@
 package com.truta.traveljournal.viewmodel
 
-import android.content.Context
-import android.database.Cursor
-import android.net.Uri
-import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

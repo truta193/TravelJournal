@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
@@ -16,7 +15,6 @@ import com.truta.traveljournal.viewmodel.HomeViewModel
 import com.truta.traveljournal.adapter.MemoryAdapter
 import com.truta.traveljournal.TravelJournalApplication
 import com.truta.traveljournal.databinding.FragmentHomeBinding
-import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.HomeMemoryModelFactory
 import kotlinx.coroutines.launch
 
