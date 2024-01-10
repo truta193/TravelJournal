@@ -6,11 +6,6 @@
     app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/testFragment"
-        android:name="com.truta.traveljournal.view.TestFragment"
-        android:label="fragment_test"
-        tools:layout="@layout/fragment_test" />
-    <fragment
         android:id="@+id/homeFragment"
         android:name="com.truta.traveljournal.view.HomeFragment"
         android:label="fragment_home"
