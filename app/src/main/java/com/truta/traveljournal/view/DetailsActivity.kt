@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -32,6 +31,8 @@ import com.truta.traveljournal.databinding.ActivityDetailsBinding
 import com.truta.traveljournal.service.WeatherService
 import com.truta.traveljournal.viewmodel.DetailsModelFactory
 import com.truta.traveljournal.viewmodel.DetailsViewModel
+import com.bumptech.glide.Glide
+import java.io.File
 
 
 class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -180,6 +181,14 @@ class DetailsActivity : AppCompatActivity(), OnMapReadyCallback {
                 viewModel.currentMemory!!.placeLatitude!!,
                 BuildConfig.WEATHER_API_KEY
             )
+        }
+
+        if (viewModel.currentMemory?.pictures != null) {
+            if (viewModel.currentMemory?.pictures!!.isNotEmpty()) {
+                Glide.with(binding.detailsThumbnail.context)
+                    .load(File(viewModel.currentMemory?.pictures!![0]))
+                    .into(binding.detailsThumbnail)
+            }
         }
 
     }

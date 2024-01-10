@@ -3,9 +3,11 @@ package com.truta.traveljournal.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.truta.traveljournal.databinding.ItemMemoryBinding
 import com.truta.traveljournal.model.Memory
 import com.truta.traveljournal.viewmodel.HomeViewModel
+import java.io.File
 
 class MemoryAdapter(
     private val viewModel: HomeViewModel, private val onItemClick: (Memory) -> Unit
@@ -27,7 +29,16 @@ class MemoryAdapter(
         fun bind(item: Memory) {
             itemBinding.item = item
             itemBinding.viewModel = viewModel
+
+            if (item.pictures != null) {
+                if (item.pictures!!.isNotEmpty())
+                    Glide.with(itemBinding.thumbnailView.context)
+                        .load(File(item.pictures!![0]))
+                        .into(itemBinding.thumbnailView)
+            }
+
             itemBinding.executePendingBindings()
+
         }
     }
 
